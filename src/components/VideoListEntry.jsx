@@ -4,11 +4,21 @@ var VideoListEntry = (prop) => (
       <img className="media-object" src={prop.video.snippet.thumbnails.default.url} alt="" />
     </div>
     <div className="media-body">
-      <div className="video-list-entry-title">{prop.video.snippet.title}</div>
+      <div onClick={function() {getVideo(prop, prop.video.id.videoId);}} className="video-list-entry-title">{prop.video.snippet.title}</div>
       <div className="video-list-entry-detail">{prop.video.snippet.description}</div>
     </div>
   </div>
 );
+
+var getVideo = function(prop, targetVideoId) {
+  for (let video of prop.state.Videos) {
+    if (targetVideoId === video.id.videoId) {
+      console.log(prop.state.currentVideo.id.videoId);
+      prop.setState({currentVideo: video});
+      console.log(prop.state.currentVideo.id.videoId);
+    }
+  }
+};
 
 // PropTypes tell other developers what `props` a component expects
 // Warnings will be shown in the console when the defined rules are violated
