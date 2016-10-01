@@ -4,7 +4,9 @@ class App extends React.Component {
     this.state = {
       currentVideo: {},
       Videos: [],
-      cb: this.updateVideo.bind(this)
+      cb: this.updateVideo.bind(this),
+      searchOk: true,
+      searchFunc: this.userSearch.bind(this)
     };
   }
 
@@ -14,7 +16,7 @@ class App extends React.Component {
     }
     return (
       <div>
-        <Nav />
+        <Nav state={this.state} />
         <div className="col-md-7">
           <VideoPlayer state={this.state} video={this.state.currentVideo}/>
         </div>
@@ -44,6 +46,25 @@ class App extends React.Component {
         this.setState({currentVideo: video});
         this.render();
       }
+    }
+  }
+  timer() {
+    var context = this;
+    setTimeout(function() {
+      context.setState({searchOk: true});
+    }, 500);
+  }
+
+  userSearch(string) {
+    if (this.state.searchOk) {
+      console.log(string);
+      var context = this;
+      searchYouTube({query: string}, function(items) {
+        context.setState({Videos: items});
+        context.render();
+      });
+      this.setState({searchOk: false});
+      this.timer();
     }
   }
 }
