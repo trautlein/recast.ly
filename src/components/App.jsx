@@ -1,26 +1,17 @@
-// var App = () => (
-//   <div>
-//     <Nav />
-//     <div className="col-md-7">
-//       <VideoPlayer video={exampleVideoData[0]}/>
-//     </div>
-//     <div className="col-md-5">
-//       <VideoList videos={exampleVideoData}/>
-//     </div>
-//   </div>
-// );
-
-
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentVideo: exampleVideoData[0],
-      Videos: exampleVideoData,
+      currentVideo: {},
+      Videos: [],
       cb: this.updateVideo.bind(this)
     };
   }
+
   render() {
+    if (this.state.Videos.length === 0) {
+      return (<div></div>);
+    }
     return (
       <div>
         <Nav />
@@ -33,6 +24,20 @@ class App extends React.Component {
       </div>
     );
   }
+
+  componentDidMount() {
+    var context = this;
+
+    searchYouTube({}, function(arr) {
+      context.setState({
+        currentVideo: arr[0],
+        Videos: arr
+      });
+
+      context.render();
+    });
+  }
+
   updateVideo(id) {
     for (let video of this.state.Videos) {
       if (id === video.id.videoId) {
