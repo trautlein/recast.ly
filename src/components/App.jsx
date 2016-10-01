@@ -16,7 +16,8 @@ class App extends React.Component {
     super(props);
     this.state = {
       currentVideo: exampleVideoData[0],
-      Videos: exampleVideoData
+      Videos: exampleVideoData,
+      cb: this.updateVideo.bind(this)
     };
   }
   render() {
@@ -32,7 +33,17 @@ class App extends React.Component {
       </div>
     );
   }
+  updateVideo(id) {
+    for (let video of this.state.Videos) {
+      if (id === video.id.videoId) {
+        this.setState({currentVideo: video});
+        this.render();
+      }
+    }
+  }
 }
+
+
 
 // In the ES6 spec, files are "modules" and do not share a top-level scope
 // `var` declarations will only exist globally where explicitly defined
