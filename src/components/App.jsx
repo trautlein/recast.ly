@@ -6,6 +6,7 @@ class App extends React.Component {
       Videos: [],
       cb: this.updateVideo.bind(this),
       searchOk: true,
+      currSearch: '',
       searchFunc: this.userSearch.bind(this)
     };
   }
@@ -56,6 +57,7 @@ class App extends React.Component {
   }
 
   userSearch(string) {
+    this.setState({currSearch: string});
     if (this.state.searchOk) {
       console.log(string);
       var context = this;
